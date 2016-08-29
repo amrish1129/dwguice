@@ -1,0 +1,77 @@
+## Dropwizard has built-in functionality to externalize application configuration. 
+appName: dwguice!
+
+## Test Configuration
+message: This is a message defined in the configuration file config.yaml.
+messageRepetitions: 3
+
+# JMS Configuration
+messageQueue:
+  host: localhost
+  port: 8161
+
+# User
+#login: Amrish
+# Password
+#password: password
+
+#Server Connectors
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+
+database:
+  # the name of your JDBC driver
+  driverClass: com.mysql.jdbc.Driver
+
+  # the username
+  user: dev
+
+  # the password
+  password: hs123
+
+  # the JDBC URL
+  url: jdbc:mysql://localhost:3306
+
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+
+  # the minimum number of connections to keep open
+  minSize: 8
+
+  # the maximum number of connections to keep open
+  maxSize: 32
+
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+
+  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
+  evictionInterval: 10s
+
+  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
+  minIdleTime: 1 minute
+  
+messageQueue:
+  brokerUrl: tcp://localhost:61616
+  # brokerUrl: failover:(tcp://broker1.com:61616,tcp://broker2.com:61616)?randomize=false
+  # brokerUsername: username
+  # brokerPassword: password
+  # shutdownWaitInSeconds: 20
+  # healthCheckMillisecondsToWait: 2000
+  # timeToLiveInSeconds: -1     (Default message time-to-live is off. Specify a maximum lifespan here in seconds for all messages.)
+  pool:
+    maxConnections: 1
+    maximumActiveSessionPerConnection: 3
+    blockIfSessionPoolIsFull: false
+    idleTimeoutMills: 30000
+    # expiryTimeoutMills:
+    createConnectionOnStartup: false
+    timeBetweenExpirationCheckMillis: 20000
