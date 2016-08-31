@@ -1,8 +1,13 @@
-package in.hopscotch.dwguice.jms.excception;
+package in.hopscotch.dwguice.api.jms;
 
 import javax.jms.Message;
 
-public interface MessageQueueExceptionHandler extends MessageQueueBaseExceptionHandler {
+/**
+ * 
+ * @author amrish
+ *
+ */
+public interface MessageExceptionHandler extends MessageBaseExceptionHandler {
 	default boolean onException(Message jmsMessage, String message, Exception exception) {
         return onException(message, exception);
     }

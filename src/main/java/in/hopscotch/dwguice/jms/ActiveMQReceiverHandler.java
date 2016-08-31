@@ -1,4 +1,4 @@
-package in.hopscotch.dwguice.jms.activemq;
+package in.hopscotch.dwguice.jms;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -16,16 +16,16 @@ import org.apache.activemq.jms.pool.PooledMessageConsumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import in.hopscotch.dwguice.jms.MessageQueueReceiverHandler;
-import in.hopscotch.dwguice.jms.MessageReceiver;
-import in.hopscotch.dwguice.jms.excception.MessageQueueBaseExceptionHandler;
+import in.hopscotch.dwguice.api.jms.MessageBaseExceptionHandler;
+import in.hopscotch.dwguice.api.jms.MessageExceptionHandler;
+import in.hopscotch.dwguice.api.jms.MessageReceiver;
 
-public class ActiveMQReceiver<T> extends MessageQueueReceiverHandler<T> {
+public class ActiveMQReceiverHandler<T> extends MessageReceiverHandler {
 	private final Class<? extends T> receiverType;
 	private final MessageReceiver<T> receiver;
 	private final ObjectMapper objectMapper;
 	static final Field pooledMessageConsumerDelegateField;
-	private final MessageQueueBaseExceptionHandler exceptionHandler;
+	private final MessageBaseExceptionHandler exceptionHandler;
 
 	static {
 		try {
@@ -36,18 +36,18 @@ public class ActiveMQReceiver<T> extends MessageQueueReceiverHandler<T> {
 		}
 	}
 
-	public ActiveMQReceiver(String destination, ConnectionFactory connectionFactory, MessageReceiver<T> receiver,
+	private ActiveMQReceiverHandler(String destination, ConnectionFactory connectionFactory, MessageReceiver<T> receiver,
 			Class<? extends T> receiverType, ObjectMapper objectMapper,
-			MessageQueueBaseExceptionHandler exceptionHandler, long shutdownWaitInSeconds) {
-		super(destination, connectionFactory, receiver, receiverType, objectMapper, exceptionHandler,
+			MessageBaseExceptionHandler exceptionHandler, long shutdownWaitInSeconds) {
+		super(destination, connectionFactory, exceptionHandler,
 				shutdownWaitInSeconds);
 		this.receiverType = receiverType;
 		this.receiver = receiver;
 		this.objectMapper = objectMapper;
 		this.exceptionHandler = exceptionHandler;
-		// TODO Auto-generated constructor stub
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void processMessage(MessageConsumer rawMessageConsumer, Message message) throws Exception {
 		String json = null;
@@ -112,5 +112,53 @@ public class ActiveMQReceiver<T> extends MessageQueueReceiverHandler<T> {
 			throw new RuntimeException("Unable to convert messageConsumer '" + rawMessageConsumer.getClass()
 					+ "' to ActiveMQMessageConsumer");
 		}
+	}
+	
+	public static class Builder<T> {
+		private Class<? extends T> receiverType;
+		private MessageReceiver<T> receiver;
+		private ObjectMapper objectMapper;
+		static Field pooledMessageConsumerDelegateField;
+		private String destination; 
+		private ConnectionFactory connectionFactory;
+		private MessageExceptionHandler exceptionHandler;
+		private long shutdownWaitInSeconds;
+		
+		
+		public Builder<T> setReceiverType(Class<? extends T> receiverType) {
+			this.receiverType = receiverType;
+			return this;
+		}
+		public Builder<T> setReceiver(MessageReceiver<T> receiver) {
+			this.receiver = receiver;
+			return this;
+		}
+		public Builder<T> setObjectMapper(ObjectMapper objectMapper) {
+			this.objectMapper = objectMapper;
+			return this;
+		}
+		public Builder<T> setExceptionHandler(MessageExceptionHandler exceptionHandler) {
+			this.exceptionHandler = exceptionHandler;
+			return this;
+			
+		}
+		
+		public Builder<T> setDestination(String destination) {
+			this.destination = destination;
+			return this;
+		}
+		public Builder<T> setConnectionFactory(ConnectionFactory connectionFactory) {
+			this.connectionFactory = connectionFactory;
+			return this;
+		}
+		public Builder<T> setShutdownWaitInSeconds(long shutdownWaitInSeconds) {
+			this.shutdownWaitInSeconds = shutdownWaitInSeconds;
+			return this;
+		}
+		public ActiveMQReceiverHandler<T> build() {
+			return new ActiveMQReceiverHandler<T>(destination, 
+					connectionFactory, receiver, receiverType, objectMapper, exceptionHandler, shutdownWaitInSeconds);
+		}
+		
 	}
 }

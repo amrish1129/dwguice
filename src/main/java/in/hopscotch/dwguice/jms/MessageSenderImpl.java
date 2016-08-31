@@ -18,7 +18,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class MessageQueueSenderImpl implements MessageQueueSender {
+import in.hopscotch.dwguice.api.jms.DestinationFactory;
+import in.hopscotch.dwguice.api.jms.JMSFunction;
+import in.hopscotch.dwguice.api.jms.MessageSender;
+
+public class MessageSenderImpl implements MessageSender {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	private final ConnectionFactory connectionFactory;
@@ -28,7 +32,7 @@ public class MessageQueueSenderImpl implements MessageQueueSender {
 	private final boolean persistent;
 	protected final DestinationFactory destinationFactory = new DestinationFactoryImpl();
 
-	public MessageQueueSenderImpl(ConnectionFactory connectionFactory, ObjectMapper objectMapper, String destination,
+	private MessageSenderImpl(ConnectionFactory connectionFactory, ObjectMapper objectMapper, String destination,
 			Optional<Integer> timeToLiveInSeconds, boolean persistent) {
 		this.connectionFactory = connectionFactory;
 		this.objectMapper = objectMapper;
@@ -120,6 +124,44 @@ public class MessageQueueSenderImpl implements MessageQueueSender {
 		} catch (JMSException jmsException) {
 			throw new RuntimeException("Error sending to jms", jmsException);
 		}
+	}
+	
+	public static class Builder {
+		private ConnectionFactory connectionFactory;
+		private ObjectMapper objectMapper;
+		private String destination;
+		private Optional<Integer> timeToLiveInSeconds;
+		private boolean persistent;
+		
+		public Builder setConnectionFactory(ConnectionFactory connectionFactory) {
+			this.connectionFactory = connectionFactory;
+			return this;
+		}
+		public Builder setObjectMapper(ObjectMapper objectMapper) {
+			this.objectMapper = objectMapper;
+			return this;
+		}
+		public Builder setDestination(String destination) {
+			this.destination = destination;
+			return this;
+		}
+		public Builder setTimeToLiveInSeconds(Optional<Integer> timeToLiveInSeconds) {
+			this.timeToLiveInSeconds = timeToLiveInSeconds;
+			return this;
+		}
+		public Builder setPersistent(boolean persistent) {
+			this.persistent = persistent;
+			return this;
+		}
+		
+		public MessageSender build() {
+			return new MessageSenderImpl(connectionFactory, 
+					objectMapper, 
+					destination, 
+					timeToLiveInSeconds, 
+					persistent);
+		}
+		
 	}
 
 }

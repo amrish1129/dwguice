@@ -31,25 +31,30 @@ public class MainConfiguration extends Configuration {
 	
 	@Valid
 	@NotNull
-	private MessageQueueConfig messageQueueFactory = new MessageQueueConfig();
+	private MessageQueueConfig messageQueueConfig = new MessageQueueConfig();
 	
 	@Valid
 	@NotNull
-	@JsonProperty
+	@JsonProperty("database")
 	private DataSourceFactory dataSourceFactory = new DataSourceFactory();
 	
+	@JsonProperty("database")
 	public DataSourceFactory getDataSourceFactory() {
 		return dataSourceFactory;
 	}
-
-	@JsonProperty("messageQueue")
-	public MessageQueueConfig getMessageQueueFactory() {
-		return messageQueueFactory;
+	@JsonProperty("database")
+	public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
+		this.dataSourceFactory = dataSourceFactory;
 	}
 
 	@JsonProperty("messageQueue")
-	public void setMessageQueueFactory(MessageQueueConfig messageQueueFactory) {
-		this.messageQueueFactory = messageQueueFactory;
+	public MessageQueueConfig getMessageQueueConfig() {
+		return messageQueueConfig;
+	}
+
+	@JsonProperty("messageQueue")
+	public void setMessageQueueConfig(MessageQueueConfig messageQueueConfig) {
+		this.messageQueueConfig = messageQueueConfig;
 	}
 
 	public String getAppName() {

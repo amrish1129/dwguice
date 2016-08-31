@@ -42,7 +42,7 @@ database:
   maxWaitForConnection: 1s
 
   # the SQL query to run when validating a connection's liveness
-  validationQuery: "/* MyService Health Check */ SELECT 1"
+  validationQuery: "/* MyService Health Check */ SELECT 1;"
 
   # the minimum number of connections to keep open
   minSize: 8
@@ -62,9 +62,9 @@ database:
 messageQueue:
   brokerUrl: tcp://localhost:61616
   # brokerUrl: failover:(tcp://broker1.com:61616,tcp://broker2.com:61616)?randomize=false
-  # brokerUsername: username
-  # brokerPassword: password
-  # shutdownWaitInSeconds: 20
+  brokerUsername: username
+  brokerPassword: password
+  shutdownWaitInSeconds: 20
   # healthCheckMillisecondsToWait: 2000
   # timeToLiveInSeconds: -1     (Default message time-to-live is off. Specify a maximum lifespan here in seconds for all messages.)
   pool:

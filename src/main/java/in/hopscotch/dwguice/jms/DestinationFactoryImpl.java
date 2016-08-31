@@ -4,6 +4,8 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Session;
 
+import in.hopscotch.dwguice.api.jms.DestinationFactory;
+
 public class DestinationFactoryImpl implements DestinationFactory {
 
 	@Override
