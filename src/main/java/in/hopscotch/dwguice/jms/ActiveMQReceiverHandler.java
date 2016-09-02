@@ -54,8 +54,9 @@ public class ActiveMQReceiverHandler<T> extends MessageReceiverHandlerImpl {
 		ActiveMQMessageConsumer messageConsumer = convertToActiveMQMessageConsumer(rawMessageConsumer);
 		try {
 			if (message instanceof TextMessage) {
+				json = ((TextMessage) message).getText();
 				if (receiverType.equals(String.class)) {
-					receiver.receive((T)message);
+					receiver.receive((T)json);
 				} else {
 					T object = fromJson(json);
 			        receiver.receive(object);
