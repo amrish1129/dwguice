@@ -7,6 +7,9 @@
  * user guide available at https://docs.gradle.org/3.0/userguide/tutorial_java_projects.html
  */
 
+// use gradlew -Penv=${env} to pass
+def environment = hasProperty('env') ? env : null
+
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'application'
@@ -40,7 +43,8 @@ dependencies {
     	"mysql:mysql-connector-java:5.1.6",
     	"io.dropwizard:dropwizard-jdbi:${dropwizardVersion}",
     	"org.apache.activemq:activemq-client:5.9.0",
-    	"org.apache.activemq:activemq-pool:5.14.0"
+    	"org.apache.activemq:activemq-pool:5.14.0",
+    	"com.hubspot.dropwizard:dropwizard-guice:1.0.0"
     	
     	//'com.hubspot.dropwizard:dropwizard-guice:1.0.0'
     	//compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.3'
@@ -58,5 +62,8 @@ dependencies {
 mainClassName = "in.hopscotch.dwguice.Main"
 
 run {
+	if (environment != null) {
+	 configPath = "${rootProject.projectDir}/conf/${environment}"
+	}
     args 'server', configPath + '/config.yml'
 }

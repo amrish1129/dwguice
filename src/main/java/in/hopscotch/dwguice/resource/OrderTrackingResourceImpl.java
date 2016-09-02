@@ -9,31 +9,37 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.inject.Inject;
+
+import in.hopscotch.dwguice.api.jms.MessageSender;
 import in.hopscotch.dwguice.representations.Milestone;
 import in.hopscotch.dwguice.representations.OrderTrackingResponse;
 
 @Path("/ordertracking")
 @Produces(MediaType.APPLICATION_JSON)
-public class OrderTrackingResource {
-	
+public class OrderTrackingResourceImpl {
+	@Inject
+	//@Named("timeLogMessageSender")
+	MessageSender timeLogMessageSender;
 	@GET
 	@Path("/track/{id}")
 	public Response trackOrder(@PathParam("id") Integer id) {
+		timeLogMessageSender.sendJson(id.toString() + " --- Message ----");
 		return Response.ok(new OrderTrackingResponse()).build();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/milestone/add")
 	public Response addMilestone(Milestone milestone) {
 		return Response.ok().build();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/milestone/update")
 	public Response updateMilestone(Milestone milestone) {
 		return Response.ok().build();
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package in.hopscotch.dwguice.api;
+package in.hopscotch.dwguice.core;
 
 public class TimeLogRequest {
 	Integer orderId;

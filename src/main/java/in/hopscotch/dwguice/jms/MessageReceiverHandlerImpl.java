@@ -17,9 +17,10 @@ import com.codahale.metrics.health.HealthCheck;
 
 import in.hopscotch.dwguice.api.jms.DestinationFactory;
 import in.hopscotch.dwguice.api.jms.MessageBaseExceptionHandler;
+import in.hopscotch.dwguice.api.jms.MessageReceiverHandler;
 import io.dropwizard.lifecycle.Managed;
 
-public abstract class MessageReceiverHandler implements Managed, Runnable {
+public abstract class MessageReceiverHandlerImpl implements MessageReceiverHandler, Managed, Runnable {
 	
 	private static final long SLEEP_TIME_MILLS = 10000;
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -37,7 +38,7 @@ public abstract class MessageReceiverHandler implements Managed, Runnable {
     
     protected int errorsInARowCount = 0;
     
-    public MessageReceiverHandler(
+    public MessageReceiverHandlerImpl(
     		String destination,
             ConnectionFactory connectionFactory,
             MessageBaseExceptionHandler exceptionHandler,
@@ -138,7 +139,7 @@ public abstract class MessageReceiverHandler implements Managed, Runnable {
 		}
 	}
 
-	protected abstract void processMessage(MessageConsumer rawMessageConsumer, Message message) throws Exception;
+	//protected abstract void processMessage(MessageConsumer rawMessageConsumer, Message message) throws Exception;
 
 	@Override
 	public void start() throws Exception {

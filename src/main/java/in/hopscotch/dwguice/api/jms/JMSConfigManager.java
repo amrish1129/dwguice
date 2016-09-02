@@ -1,8 +1,6 @@
 package in.hopscotch.dwguice.api.jms;
 
-import in.hopscotch.dwguice.MessageQueueConfig;
 import io.dropwizard.lifecycle.Managed;
-import io.dropwizard.setup.Environment;
 
 /**
  * 
@@ -10,5 +8,8 @@ import io.dropwizard.setup.Environment;
  *
  */
 public interface JMSConfigManager extends Managed {
-	void init(MessageQueueConfig config, Environment env);
+	//void init(MessageQueueConfig config, Environment env);
+	MessageSender createSender(String destination, boolean persistent);
+	<T> MessageReceiverHandler registerReceiver(String destination, MessageReceiver<T> receiver, Class<? extends T> clazz,
+            final boolean ackMessageOnException);
 }

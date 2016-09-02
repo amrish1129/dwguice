@@ -20,7 +20,7 @@ import in.hopscotch.dwguice.api.jms.MessageBaseExceptionHandler;
 import in.hopscotch.dwguice.api.jms.MessageExceptionHandler;
 import in.hopscotch.dwguice.api.jms.MessageReceiver;
 
-public class ActiveMQReceiverHandler<T> extends MessageReceiverHandler {
+public class ActiveMQReceiverHandler<T> extends MessageReceiverHandlerImpl {
 	private final Class<? extends T> receiverType;
 	private final MessageReceiver<T> receiver;
 	private final ObjectMapper objectMapper;
@@ -49,7 +49,7 @@ public class ActiveMQReceiverHandler<T> extends MessageReceiverHandler {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void processMessage(MessageConsumer rawMessageConsumer, Message message) throws Exception {
+	public void processMessage(MessageConsumer rawMessageConsumer, Message message) throws Exception {
 		String json = null;
 		ActiveMQMessageConsumer messageConsumer = convertToActiveMQMessageConsumer(rawMessageConsumer);
 		try {
