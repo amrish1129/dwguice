@@ -44,7 +44,8 @@ dependencies {
     	"io.dropwizard:dropwizard-jdbi:${dropwizardVersion}",
     	"org.apache.activemq:activemq-client:5.9.0",
     	"org.apache.activemq:activemq-pool:5.14.0",
-    	"com.hubspot.dropwizard:dropwizard-guice:1.0.0"
+    	//"com.hubspot.dropwizard:dropwizard-guice:1.0.0"
+    	"com.google.inject:guice:4.1.0"
     	
     	//'com.hubspot.dropwizard:dropwizard-guice:1.0.0'
     	//compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.3'

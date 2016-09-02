@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.hubspot.dropwizard.guice.GuiceBundle;
 
 import in.hopscotch.dwguice.di.ActiveMQModule;
 import in.hopscotch.dwguice.di.ConfigModule;
@@ -27,7 +26,6 @@ import io.dropwizard.setup.Environment;
 public class Main extends Application<MainConfiguration> {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
-	private GuiceBundle<MainConfiguration> guiceBundle;
 
 	/**
 	 * The initialize method is tasked with bootstrapping, possibly loading
