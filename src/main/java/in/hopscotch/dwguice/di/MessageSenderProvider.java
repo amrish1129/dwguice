@@ -8,7 +8,7 @@ import in.hopscotch.dwguice.jms.ActiveMQManager;
 import in.hopscotch.dwguice.jms.MessageDestination;
 
 public class MessageSenderProvider implements Provider<MessageSender>{
-	ActiveMQManager manager;
+	private ActiveMQManager manager;
 	
 	@Inject
 	public MessageSenderProvider(ActiveMQManager manager) {

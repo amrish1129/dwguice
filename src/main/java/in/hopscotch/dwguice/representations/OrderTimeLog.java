@@ -7,7 +7,10 @@ import org.hibernate.validator.constraints.NotBlank;
 
 public class OrderTimeLog {
 	@NotBlank
-	private int unitId;
+	private Integer orderId;
+	
+	@NotBlank
+	private Integer orderItemId;
 	
 	@NotBlank
 	private String unitType;
@@ -23,12 +26,7 @@ public class OrderTimeLog {
 	private Date createdDate;
 	private String createdBy;
 	
-	public int getUnitId() {
-		return unitId;
-	}
-	public void setUnitId(int unitId) {
-		this.unitId = unitId;
-	}
+	
 	public String getUnitType() {
 		return unitType;
 	}
@@ -82,6 +80,18 @@ public class OrderTimeLog {
 	}
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+	public Integer getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
+	public Integer getOrderItemId() {
+		return orderItemId;
+	}
+	public void setOrderItemId(Integer orderItemId) {
+		this.orderItemId = orderItemId;
 	}
 	
 }

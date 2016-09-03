@@ -1,5 +1,6 @@
 package in.hopscotch.dwguice.resource;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,10 +20,11 @@ import in.hopscotch.dwguice.representations.OrderTrackingResponse;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrderTrackingResourceImpl {
 	@Inject
-	//@Named("timeLogMessageSender")
 	MessageSender timeLogMessageSender;
+	
 	@GET
 	@Path("/track/{id}")
+	@PermitAll
 	public Response trackOrder(@PathParam("id") Integer id) {
 		timeLogMessageSender.sendJson(id.toString() + " --- Message ----");
 		return Response.ok(new OrderTrackingResponse()).build();

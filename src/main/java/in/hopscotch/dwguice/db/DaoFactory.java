@@ -32,8 +32,8 @@ public class DaoFactory {
 		
 	}
 	
-	public OrderTimeLogDao getOrderTimeLogDao()  {
-		return dbi.onDemand(OrderTimeLogDao.class);
+	public TimeLogDao getOrderTimeLogDao()  {
+		return dbi.onDemand(TimeLogDao.class);
 	}
 
 	public void setDbi(DBI dbi) throws Exception {
